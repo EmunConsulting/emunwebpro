@@ -39,5 +39,5 @@ def custom_upload_to(instance, filename):
     user_id = instance.traveler.user.id
     base, extension = os.path.splitext(filename)
     new_filename = f"{user_id}_{model_name.lower()}_{base}{extension}"
-    return os.path.join('media/uploaded_attachments', new_filename)
+    return os.path.join('uploaded_attachments/', new_filename)
 

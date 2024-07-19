@@ -22,7 +22,7 @@ class TravelerRecord(TimestampMixin, UserStampedMixin, models.Model):
 
 class ProfileImage(TimestampMixin, UserStampedMixin, models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    profile_image = models.ImageField(upload_to='media/profile_image/')
+    profile_image = models.ImageField(upload_to='profile_image/')
 
     def __str__(self):
         return str(self.user)

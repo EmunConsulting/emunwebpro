@@ -17,6 +17,7 @@ services:
       gunicorn --workers=3 --bind=0.0.0.0:8000 emun.wsgi:application"
     volumes:
       - .:/app
+      - media_volume:/app/media
     expose:
       - 8000
     env_file:
@@ -37,6 +38,7 @@ services:
       dockerfile: Dockerfile-nginx
     volumes:
       - static_volume:/static
+      - media_volume:/media
     ports:
       - "80:80"
     depends_on:
@@ -45,3 +47,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:

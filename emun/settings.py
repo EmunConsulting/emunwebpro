@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-e7z6af&n@d4dq2gu3@7wzb&mg&3iy^sdd!k2oqwbx)e5(fg2zx
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['161.35.192.27', 'localhost']
+ALLOWED_HOSTS = ['161.35.192.27', 'localhost', 'www.erisami.com', 'erisami.com']
 
 
 # Application definition

@@ -2,16 +2,15 @@
 {% load static %}
 
 {% block title %}
-    ሓበሬታ መዝግቢ
+    Marriage Record / ናይ መርዓ መዝገብ
 {% endblock %}
 
 
 {% block content %}
-
-<style>
+ <style>
   .form-wrapper{
     width: 360px;
-    height: 550px;
+    height: 400px;
     margin: 1% auto;
     background: #079;
     border-radius: 5px;
@@ -57,9 +56,8 @@ form select option{
     width: 100%;
     margin: 30px auto;
     text-align: center;
-
 }
-.button,
+
 form button{
     width: 250px;
     height: 35px;
@@ -71,37 +69,39 @@ form button{
     cursor: pointer;
     color: #fff;
 }
-a,
-.button{
-    text-align: center;
-    color: #fff;
-    text-decoration:none;
-    padding:3;
+.tiny-white
+{
+    color:#fff;
+    font-size:10px;
 }
-
 </style>
 
-<div class="form-wrapper">
 
-<form class="contact-form row" method="POST" action="{% url 'add_officer_note' visa_app.application_number %}">
+<hr>
+
+<div class="form-wrapper">
+<form class="contact-form row" method="POST" action="{% url 'add_marriage_record' %}">
 {% csrf_token %}
 
-<div class="form-section">
+<div class="form-section" id="Form1">
+<h3>ናይ መርዓ ፎርም</h3>
 
-<h3>ሓበሬታ ንጉዳይ <br><b>{{visa_app.application_number}}</b> ዝምልከት</h3>
+<select name="marriage_classification">
+    <option value="">ዓይነት መርዓ ምረጽ</option>
+    <option value="1">Civil/ሲቪል</option>
+    <option value="2">Christian/ክርስትያን</option>
+    <option value="3">Muslim/ምስልምና</option>
+    <option value="4">Hindu/ሂንዱ</option>
+    <option value="5">Customary/ባህላዊ</option>
+    <option value="6">Registered/ናይ መንግስቲ</option>
+</select>
 
-<div>
-<span style="color:white">ዋና ጉዳይ:  {{ visa_app.application_owner.first_name }} {{ visa_app.application_owner.last_name }}</span>
-</div>
-<br>
-<span style="color:yellow; font-size:10px;">ሓጺር ህሉው መግለጺ ብዛዕባ እዛ ጉዳይ ኣብ ከመይ ዝበለ ኩነታት ከም እትርከብ</span>
-<textarea name="officer_notes" style="background:transparent; color:white;" rows="5" cols="30">{{visa_app.officer_notes}}</textarea>
+
+<input id="marriage_classification" name="marriage_planned_date" type="date" title="መርዓ ዝተመደበሉ ዕለት" required>
+    <span class="tiny-white">መርዓ ንኽግበር ዝተመደበ ዕለት</span>
 
 <div class="btn-box">
-<button type="submit"> ዓቅብዮ</button>
-</div>
-<div class="button">
-<a href="{% url 'assigned_to_me' %}">ከይዓቀብኪዮ ንመለስ</a>
+<button type="submit">ዓቅብዮ</button>
 </div>
 </div>
 
@@ -109,8 +109,6 @@ a,
 
 </div>
 
-{% block script %}
 
-{% endblock %}
 
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import RefugeeId, FamilyAttestation, BirthCertificate, NationalID, WeddingCertificate, EmbassyDocument, MedicalDocument, OtherDocument
+from .models import RefugeeId, FamilyAttestation, BirthCertificate, NationalID, WeddingCertificate, EmbassyDocument
+from .models import MedicalDocument, OtherDocument, MarriageRecord, MarriageAttachments
 
 
 @admin.register(RefugeeId)
@@ -65,3 +66,17 @@ class OtherDocumentAdmin(admin.ModelAdmin):
     search_fields = ('traveler', )
     list_filter = ('traveler', )
 
+
+@admin.register(MarriageRecord)
+class MarriageRecordAdmin(admin.ModelAdmin):
+    list_display = ('id', 'requestor', 'marriage_classification', 'requested_date', 'marriage_planned_date', 'record_status', 'assigned_officer', 'officer_notes',)
+    ordering = ('id', )
+    search_fields = ('requestor', )
+    list_filter = ('marriage_planned_date', 'requested_date')
+
+
+@admin.register(MarriageAttachments)
+class MarriageAttachmentsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'record_id', 'passport_photo_bridegroom', 'passport_photo_bride', )
+    ordering = ('id', )
+    list_filter = ('record_id',)

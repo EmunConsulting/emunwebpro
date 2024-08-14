@@ -41,3 +41,11 @@ def custom_upload_to(instance, filename):
     new_filename = f"{user_id}_{model_name.lower()}_{base}{extension}"
     return os.path.join('uploaded_attachments/', new_filename)
 
+
+def custom_upload_to_marriage(instance, filename):
+    model_name = instance.__class__.__name__
+    record_id = instance.record_id
+    base, extension = os.path.splitext(filename)
+    new_filename = f"{record_id}_{model_name.lower()}_{base}{extension}"
+    return os.path.join('uploaded_attachments/', new_filename)
+

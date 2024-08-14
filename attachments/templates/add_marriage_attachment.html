@@ -1,0 +1,508 @@
+{% extends  'base.html' %}
+{% load static %}
+
+{% block title %}
+    Compiled Application
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+table
+{
+    font-size:12px;
+}
+.sub-title-top{
+    font-size:16px;
+    color:#099;
+    font-weight:700;
+}
+
+.sub-title{
+    font-size:14px;
+    color:#099;
+}
+
+.table th{
+    color:white;
+    background:#1679BF;
+    font-size:0.7rem;
+}
+.table
+{
+    font-size:0.7rem;
+}
+.upload-container {
+    text-align: center;
+}
+
+.upload-icon {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.upload-icon i {
+    font-size: 14px; /* Adjust size as needed */
+    color: #007bff; /* Adjust color as needed */
+}
+
+</style>
+
+<hr>
+<span>ጸብጻብ ናይ ተረኪቦም ዘለዉ ደኩመንትታት</span>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width:70%;">Document / ደኩመንት</th>
+            <th style="width:20%;">Status/ኩነት</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <!-- 1. Bridegroom's Photo -->
+        <tr>
+            <td>Bridegroom's Photo / ናይ መርዓዊ ስእሊ</td>
+            <td>
+                {% if att.passport_photo_bridegroom %}
+                <a href="{{ att.passport_photo_bridegroom.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_photo_bridegroom.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_photo_bridegroom %}
+                    <a href="{% url 'delete_passport_photo_bridegroom' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_photo_bridegroom" data-url="{% url 'upload_passport_photo_bridegroom' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_passport_photo_bridegroom" name="passport_photo_bridegroom" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 2. Bride's Photo -->
+        <tr>
+            <td>Bride's Photo / ናይ መርዓት ስእሊ</td>
+            <td>
+                {% if att.passport_photo_bride %}
+                <a href="{{ att.passport_photo_bride.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_photo_bride.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_photo_bride %}
+                    <a href="{% url 'delete_passport_photo_bride' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_photo_bride" data-url="{% url 'upload_passport_photo_bride' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_passport_photo_bride" name="passport_photo_bride" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+
+        <!-- 3. Witness-1's Photo -->
+        <tr>
+            <td>Witness-1's Photo / ናይ 1ይ ምስክር ስእሊ</td>
+            <td>
+                {% if att.passport_photo_witness1 %}
+                <a href="{{ att.passport_photo_witness1.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_photo_witness1.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_photo_witness1 %}
+                    <a href="{% url 'delete_passport_photo_witness1' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_photo_witness1" data-url="{% url 'upload_passport_photo_witness1' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i>
+                            <input type="file" id="upload_input_passport_photo_witness1" name="passport_photo_witness1" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 4. Witness-2's Photo -->
+        <tr>
+            <td>Witness-2's Photo / ናይ 2ይ ምስክር ስእሊ</td>
+            <td>
+                {% if att.passport_photo_witness2 %}
+                <a href="{{ att.passport_photo_witness2.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_photo_witness2.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_photo_witness2 %}
+                    <a href="{% url 'delete_passport_photo_witness2' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_photo_witness2" data-url="{% url 'upload_passport_photo_witness2' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i>
+                            <input type="file" id="upload_input_passport_photo_witness2" name="passport_photo_witness2" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 5. Bridegroom's Passport or ID -->
+        <tr>
+            <td>Bridegroom's Passport or ID / ናይ መርዓዊ ፓስፖርት ወይ ታሴራ</td>
+            <td>
+                {% if att.passport_or_id_bridegroom %}
+                <a href="{{ att.passport_or_id_bridegroom.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_or_id_bridegroom.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_or_id_bridegroom %}
+                    <a href="{% url 'delete_passport_or_id_bridegroom' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_or_id_bridegroom" data-url="{% url 'upload_passport_or_id_bridegroom' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i>
+                            <input type="file" id="upload_input_passport_or_id_bridegroom" name="passport_or_id_bridegroom" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+
+        <!-- 6. Bride's Passport or ID -->
+        <tr>
+            <td>Bride's Passport or ID / ናይ መርዓት ፓስፖርት ወይ ታሴራ</td>
+            <td>
+                {% if att.passport_or_id_bride %}
+                <a href="{{ att.passport_or_id_bride.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_or_id_bride.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_or_id_bride %}
+                    <a href="{% url 'delete_passport_or_id_bride' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_or_id_bride" data-url="{% url 'upload_passport_or_id_bride' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_passport_or_id_bride" name="passport_or_id_bride" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 7. Witness-1's Passport or ID -->
+        <tr>
+            <td>Witness-1's Passport or ID / ናይ 1ይ ምስክር ፓስፖርት ወይ ታሴራ</td>
+            <td>
+                {% if att.passport_or_id_witness1 %}
+                <a href="{{ att.passport_or_id_witness1.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_or_id_witness1.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_or_id_witness1 %}
+                    <a href="{% url 'delete_passport_or_id_witness1' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_or_id_witness1" data-url="{% url 'upload_passport_or_id_witness1' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_passport_or_id_witness1" name="passport_or_id_witness1" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 8. Witness-2's Passport or ID -->
+        <tr>
+            <td>Witness-2's Passport or ID / ናይ 2ይ ምስክር ፓስፖርት ወይ ታሴራ</td>
+            <td>
+                {% if att.passport_or_id_witness2 %}
+                <a href="{{ att.passport_or_id_witness2.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.passport_or_id_witness2.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.passport_or_id_witness2 %}
+                    <a href="{% url 'delete_passport_or_id_witness2' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_passport_or_id_witness2" data-url="{% url 'upload_passport_or_id_witness2' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_passport_or_id_witness2" name="passport_or_id_witness2" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 9. Affidavit of Single Status for Bridegroom -->
+        <tr>
+            <td>LC1 Letter / ናይ LC1 ደብዳበ</td>
+            <td>
+                {% if att.lc1_letter %}
+                <a href="{{ att.lc1_letter.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.lc1_letter.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.lc1_letter %}
+                    <a href="{% url 'delete_lc1_letter' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_lc1_letter" data-url="{% url 'upload_lc1_letter' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_lc1_letter" name="lc1_letter" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 10. Marriage related Certificate of Bridegroom -->
+        <tr>
+            <td>Marriage related Certificate of Bridegroom / ናይ መርዓዊ ምስ መርዓ ዝተኣሰር ሰርቲፊኬት</td>
+            <td>
+                {% if att.marriage_related_document_bridegroom %}
+                <a href="{{ att.marriage_related_document_bridegroom.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.marriage_related_document_bridegroom.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.marriage_related_document_bridegroom %}
+                    <a href="{% url 'delete_marriage_related_document_bridegroom' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_marriage_related_document_bridegroom" data-url="{% url 'upload_marriage_related_document_bridegroom' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_marriage_related_document_bridegroom" name="marriage_related_document_bridegroom" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 11. Marriage related Certificate of Bride -->
+        <tr>
+            <td>Marriage related Certificate of Bride / ናይ መርዓት ምስ መርዓ ዝተኣሰር ሰርቲፊኬት</td>
+            <td>
+                {% if att.marriage_related_document_bride %}
+                <a href="{{ att.marriage_related_document_bride.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.marriage_related_document_bride.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.marriage_related_document_bride %}
+                    <a href="{% url 'delete_marriage_related_document_bride' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_marriage_related_document_bride" data-url="{% url 'upload_marriage_related_document_bride' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_marriage_related_document_bride" name="marriage_related_document_bride" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+
+        <!-- 12. Proof of Payment -->
+        <tr>
+            <td>Proof Of Payment / ንመመዝገቢ መርዓ ከምዝኸፍልካ መረጋገጺ</td>
+            <td>
+                {% if att.proof_of_payment %}
+                <a href="{{ att.proof_of_payment.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.proof_of_payment.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.proof_of_payment %}
+                    <a href="{% url 'delete_proof_of_payment' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_proof_of_payment" data-url="{% url 'upload_proof_of_payment' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_proof_of_payment" name="proof_of_payment" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 13. Birth Certificate -->
+        <tr>
+            <td>Birth Certificate / በርዝ ሰርቲፊኬት</td>
+            <td>
+                {% if att.birth_certificate %}
+                <a href="{{ att.birth_certificate.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.birth_certificate.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.birth_certificate %}
+                    <a href="{% url 'delete_birth_certificate' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_birth_certificate" data-url="{% url 'upload_birth_certificate' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_birth_certificate" name="birth_certificate" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+        <!-- 14. Other Document -->
+        <tr>
+            <td>Other Document / ካልእ ደኩመንት</td>
+            <td>
+                {% if att.other_document %}
+                <a href="{{ att.other_document.url }}" target="_blank" style="text-decoration:none;">
+                    <img src="{{ att.other_document.url }}" width="20" height="20" style="border-radius: 50%; object-fit: cover;">
+                </a>
+                Submitted / ተረኪቡ
+                {% else %}
+                Not Submitted / ኣይተረከበን
+                {% endif %}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;">
+                {% if att.other_document %}
+                    <a href="{% url 'delete_other_document' att.record_id %}" class="close-icon delete-record-link" data-record-id="{{ i.pk }}" style="display:inline-block; color:red;"><i class="fa-solid fa-trash"></i></a>
+                {% else %}
+                    <div class="upload-container">
+                        <label class="upload-icon" data-target="upload_input_other_document" data-url="{% url 'upload_other_document' att.record_id %}">
+                            <i class="fa-solid fa-upload"></i> <!-- Replace with your tick icon -->
+                            <input type="file" id="upload_input_other_document" name="other_document" style="display:none;">
+                        </label>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+
+
+
+    </tbody>
+</table>
+<hr class="divider">
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.addEventListener('click', function(event) {
+        const uploadIcon = event.target.closest('.upload-icon');
+        if (uploadIcon) {
+            // Find the file input based on the data-target attribute
+            const fileInputId = uploadIcon.getAttribute('data-target');
+            const fileInput = document.getElementById(fileInputId);
+
+            if (fileInput) {
+                fileInput.click();
+            }
+        }
+    });
+
+    document.body.addEventListener('change', function(event) {
+        const fileInput = event.target.closest('input[type="file"]');
+        if (fileInput) {
+            const fieldName = fileInput.name;
+            const fileInputId = fileInput.id;
+            const formData = new FormData();
+            formData.append(fieldName, fileInput.files[0]);
+
+            // Use a dynamic URL based on the data-url attribute
+            const uploadIcon = document.querySelector(`.upload-icon[data-target="${fileInputId}"]`);
+            const url = uploadIcon ? uploadIcon.getAttribute('data-url') : '';
+
+            if (url) {
+                fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                    // If the upload is successful, reload the page to display messages
+                    window.location.reload();
+                }).catch(error => {
+                    alert('An error occurred during the upload.');
+                });
+            }
+        }
+    });
+});
+
+
+</script>
+
+
+{% endblock %}

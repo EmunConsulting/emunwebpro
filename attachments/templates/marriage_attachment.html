@@ -1,0 +1,83 @@
+{% extends  'base.html' %}
+{% load static %}
+
+{% block title %}
+    Marriage Related Request
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+table
+{
+    font-size:12px;
+}
+.sub-title-top{
+    font-size:16px;
+    color:#099;
+    font-weight:700;
+}
+
+.sub-title{
+    font-size:14px;
+    color:#099;
+}
+
+.table th{
+    color:white;
+    background:#1679BF;
+    font-size:0.7rem;
+}
+.table
+{
+    font-size:0.7rem;
+}
+
+</style>
+
+<hr>
+<span>ምስ መርዓ ዝተኣሳሰሩ ዘቕረብካዮም ጠለብ</span><br><br>
+<a href="{% url 'add_marriage_record' %}" style="display:inline-block;" class="btn btn-primary btn-sm">New marriage record / ሓድሽ ናይ መርዓ መዝገብ</a>
+<br><br>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th >Req. Date / ዝተሓተሉ ዕለት</th>
+            <th >Classification / ምድብ</th>
+            <th >Planned Date / መርዓ ተመደበሉ ዕለት</th>
+            <th >Current status / ህሉው ኩነት</th>
+            <th >Assigned Officer / ዝተመደበ ሰብ</th>
+            <th >Officer Note / ናይ ኦፊሰር ተወሳኺ ሓበሬታ </th>
+            <th >Submitted Docs / ዝተረከቡ ደኩመንታት </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+{% for i in rec %}
+        <tr>
+            <td>{{i.requested_date}}</td>
+            <td>{{i.get_marriage_classification_display}}</td>
+            <td>{{i.marriage_planned_date}}</td>
+            <td>{{i.get_record_status_display}}</td>
+            <td>{{i.assigned_officer}}</td>
+            <td>{{i.officer_notes}}</td>
+            <td>
+                {% for j in att %}
+                {% if j.record_id.id == i.id %}
+                {{j.count_non_null_fields}}
+                {%else%}
+                {%endif%}
+                {%endfor%}
+            </td>
+            <td class="act" style="text-align:center; vertical-align:middle;"><a href="{% url 'add_marriage_attachment' i.id %}" style="display:inline-block;">Add / ሓበሬታ ክውስኽ </a></td>
+        </tr>
+{% endfor %}
+     </tbody>
+</table>
+
+<hr class="divider">
+
+{% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    ሓበሬታ መዝግቢ
+    ስራሕ መድብ
 {% endblock %}
 
 
@@ -32,6 +32,7 @@ h3{
     left: 40px;
     transition: 0.5s;
 }
+
 form select,
 form input{
     width: 100%;
@@ -71,6 +72,7 @@ form button{
     cursor: pointer;
     color: #fff;
 }
+
 a,
 .button{
     text-align: center;
@@ -83,26 +85,28 @@ a,
 
 <div class="form-wrapper">
 
-<form class="contact-form row" method="POST" action="{% url 'add_officer_note' visa_app.application_number %}">
+<form class="contact-form row" method="POST" action="{% url 'assign_task_marriage' marr_rec.id %}">
 {% csrf_token %}
 
 <div class="form-section">
 
-<h3>ሓበሬታ ንጉዳይ <br><b>{{visa_app.application_number}}</b> ዝምልከት</h3>
+<h3>ስራሕ መድብ</h3>
 
-<div>
-<span style="color:white">ዋና ጉዳይ:  {{ visa_app.application_owner.first_name }} {{ visa_app.application_owner.last_name }}</span>
-</div>
-<br>
-<span style="color:yellow; font-size:10px;">ሓጺር ህሉው መግለጺ ብዛዕባ እዛ ጉዳይ ኣብ ከመይ ዝበለ ኩነታት ከም እትርከብ</span>
-<textarea name="officer_notes" style="background:transparent; color:white;" rows="5" cols="30">{{visa_app.officer_notes}}</textarea>
+<select name="assigned_officer">
+    <option value="" disabled selected style="color:yellow;">ነዚ ከሳልጥ ዝተመደበ ምረጽ</option> <!-- Placeholder option -->
+    {% for user in person %}
+        <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+    {% endfor %}
+</select>
 
 <div class="btn-box">
 <button type="submit"> ዓቅብዮ</button>
 </div>
+
 <div class="button">
-<a href="{% url 'assigned_to_me' %}">ከይዓቀብኪዮ ንመለስ</a>
+<a href="{% url 'marriage_application_list' %}">ከይዓቀብኪዮ ንመለስ</a>
 </div>
+
 </div>
 
 </form>

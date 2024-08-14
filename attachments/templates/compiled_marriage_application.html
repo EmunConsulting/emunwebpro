@@ -1,0 +1,321 @@
+{% extends  'base.html' %}
+{% load static %}
+{% load group_tags %}
+
+
+{% block title %}
+    Compiled Marriage Application
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+table
+{
+    font-size:12px;
+}
+.sub-title-top{
+    font-size:16px;
+    color:#099;
+    font-weight:700;
+}
+
+.sub-title{
+    font-size:14px;
+    color:#099;
+}
+
+hr{
+border: 3px solid #099;
+}
+
+.divider{
+border: 1px solid green;
+}
+
+.incomplete{
+border: 4px solid red;
+}
+.card-subtitle
+{
+    font-size:0.8rem;
+}
+.card
+{
+    margin-top:1rem;
+}
+
+</style>
+
+<hr>
+
+<h5>
+    <span><i class="fa-solid fa-user fa-2x"></i></span>
+    Marriage Request Details No. <b>{{info.id}}</b> / ዝርዝር ትሕዝቶ ዝተሓተ መርዓ ቁ. <b>{{info.id}}</b>
+</h5>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th style="width:20%;">Title / ኣርእስቲ</th>
+            <th>Detail / መግለጺ</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>ሓታቲ</td>
+            <td>{{info.requestor.first_name}} {{info.requestor.last_name}}</td>
+        </tr>
+
+        <tr>
+            <td>ዓይነት መርዓ</td>
+            <td>{{info.get_marriage_classification_display}}</td>
+        </tr>
+
+        <tr>
+            <td>ዝተሓተተሉ ዕለት</td>
+            <td>{{info.requested_date}}</td>
+        </tr>
+
+        <tr>
+            <td>መርዓ ዝተመደበሉ ዕለት</td>
+            <td>{{info.marriage_planned_date}}</td>
+        </tr>
+
+        <tr>
+            <td>ህሉው ኩነታት</td>
+            <td>{{info.get_record_status_display}}</td>
+        </tr>
+
+        <tr>
+            <td>ዝተመደበ ኣባል</td>
+            <td>
+                {% if user|has_group:"admin" or user|has_group:"moderator" %}
+                    {% if info.assigned_officer %}
+                        <span><a href="{% url 'assign_task_marriage' info.id %}">{{info.assigned_officer.first_name}} {{info.assigned_officer.last_name}}</a></span>
+                    {% else %}
+                        <span><a href="{% url 'assign_task_marriage' info.id %}" style="text-decoration:none;"><i class="fa-solid fa-user"></i>&nbsp;መድበሉ</a></span>
+                    {% endif %}
+                {% else %}
+                    {{info.assigned_officer.first_name}} {{info.assigned_officer.last_name}}
+                {% endif %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>ናይ ኣሳላጢ መልሲ</td>
+            <td>{{info.officer_notes}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr class="divider">
+
+<div class="container mx-auto mt-4">
+  <div class="row">
+
+    <!-- Start Card -->
+      {% if att.passport_photo_bridegroom %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_photo_bridegroom.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport Photo - Bridegroom</h6>
+                <a href="{{ att.passport_photo_bridegroom.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+    <!-- Start Card -->
+      {% if att.passport_photo_bride %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_photo_bride.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport Photo - Bride</h6>
+                <a href="{{ att.passport_photo_bride.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+    <!-- Start Card -->
+      {% if att.passport_photo_witness1 %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_photo_witness1.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport Photo - Witness 1</h6>
+                <a href="{{ att.passport_photo_witness1.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+    <!-- Start Card -->
+      {% if att.passport_photo_witness2 %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_photo_witness2.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport Photo - Witness 2</h6>
+                <a href="{{ att.passport_photo_witness2.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.passport_or_id_bridegroom %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_or_id_bridegroom.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport or ID - Bridegroom</h6>
+                <a href="{{ att.passport_or_id_bridegroom.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.passport_or_id_bride %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_or_id_bride.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport or ID - Bride</h6>
+                <a href="{{ att.passport_or_id_bride.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.passport_or_id_witness1 %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_or_id_witness1.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport or ID - Witness 1</h6>
+                <a href="{{ att.passport_or_id_witness1.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.passport_or_id_witness2 %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.passport_or_id_witness2.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Passport or ID - Witness 2</h6>
+                <a href="{{ att.passport_or_id_witness2.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.lc1_letter %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.lc1_letter.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">LC1 Letter</h6>
+                <a href="{{ att.lc1_letter.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.marriage_related_document_bridegroom %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.marriage_related_document_bridegroom.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Marriage Related Document - Bridegroom </h6>
+                <a href="{{ att.marriage_related_document_bridegroom.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.marriage_related_document_bride %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.marriage_related_document_bride.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Marriage Related Document - Bride </h6>
+                <a href="{{ att.marriage_related_document_bride.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.proof_of_payment %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.proof_of_payment.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Proof of payment </h6>
+                <a href="{{ att.proof_of_payment.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.birth_certificate %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.birth_certificate.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Birth Certificate </h6>
+                <a href="{{ att.birth_certificate.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+     <!-- Start Card -->
+      {% if att.other_document %}
+        <div class="col-md-3">
+          <div class="card" style="width: 14rem; height: 15rem;">
+            <img src="{{ att.other_document.url }}" class="card-img-top" alt="..." style="height: 10rem; object-fit: cover;">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Other Document </h6>
+                <a href="{{ att.other_document.url}}" target="_blank" style="text-decoration:none;"><i class="fas fa-image"></i>&nbsp; Open in new tab</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    <!-- End of Card -->
+
+
+  </div>
+</div>
+
+
+{% endblock %}

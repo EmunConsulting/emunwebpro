@@ -83,19 +83,14 @@ a,
 
 <div class="form-wrapper">
 
-<form class="contact-form row" method="POST" action="{% url 'add_officer_note' visa_app.application_number %}">
+<form class="contact-form row" method="POST" action="{% url 'add_officer_note_marriage' marr_rec.id %}">
 {% csrf_token %}
 
 <div class="form-section">
 
-<h3>ሓበሬታ ንጉዳይ <br><b>{{visa_app.application_number}}</b> ዝምልከት</h3>
-
-<div>
-<span style="color:white">ዋና ጉዳይ:  {{ visa_app.application_owner.first_name }} {{ visa_app.application_owner.last_name }}</span>
-</div>
 <br>
 <span style="color:yellow; font-size:10px;">ሓጺር ህሉው መግለጺ ብዛዕባ እዛ ጉዳይ ኣብ ከመይ ዝበለ ኩነታት ከም እትርከብ</span>
-<textarea name="officer_notes" style="background:transparent; color:white;" rows="5" cols="30">{{visa_app.officer_notes}}</textarea>
+<textarea name="officer_notes" style="background:transparent; color:white;" rows="5" cols="30">{{marr_rec.officer_notes}}</textarea>
 
 <div class="btn-box">
 <button type="submit"> ዓቅብዮ</button>

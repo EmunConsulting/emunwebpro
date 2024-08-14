@@ -63,7 +63,7 @@ a{
         </tr>
 
         <tr>
-            <td>ዝሓተቱ ቪዛ</td>
+            <td>ምስ ቪዛ ዝተኣሰሩ ጉዳያት</td>
             <td>
                 <a href="{% url 'visa_application_list' %}">
                 {{visa_app}}
@@ -95,6 +95,41 @@ a{
             <td style="padding:3 30 ; color:#170;"> ዝተሰረዙ</td>
             <td style=color:#170;">{{can}}</td>
         </tr>
+<!--ምስ መርዓ ዝተኣሳሰሩ ጉዳያት-->
+        <tr>
+            <td>ምስ መርዓ ዝተኣሰሩ ጉዳያት</td>
+            <td>
+                <a href="{% url 'marriage_application_list' %}">
+                {{mar_rec}}
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding:3 30 ; color:#170;"> ተረኪቦም ግን ዘይተመደቡ</td>
+            <td style=color:#170;">{{mar_ini}}</td>
+        </tr>
+
+        <tr>
+            <td style="padding:3 30 ; color:#170;"> ናብ ኣሳለጥቲ ዝተመደቡ</td>
+            <td style=color:#170;">{{mar_ass}}</td>
+        </tr>
+
+        <tr>
+            <td style="padding:3 30 ; color:#170;"> ኣብ መስርሕ ዘለዉ</td>
+            <td style=color:#170;">{{mar_inp}}</td>
+        </tr>
+
+        <tr>
+            <td style="padding:3 30 ; color:#170;"> ዝተዛዘሙ</td>
+            <td style=color:#170;">{{mar_com}}</td>
+        </tr>
+
+        <tr>
+            <td style="padding:3 30 ; color:#170;"> ዝተሰረዙ</td>
+            <td style=color:#170;">{{mar_can}}</td>
+        </tr>
+
 
     </tbody>
 </table>

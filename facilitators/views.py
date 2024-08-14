@@ -15,7 +15,7 @@ from django.db.models import Count
 from .models import Role, Account
 from travelers.models import TravelerRecord
 from visaapplications.models import VisaApplication
-
+from attachments.models import MarriageRecord
 
 @authentication_required
 @allowed_users(allowed_roles=['admin', 'moderator'])
@@ -23,13 +23,12 @@ from visaapplications.models import VisaApplication
 def tasks_and_assignments(request):
 
     visa_app = VisaApplication.objects.all()
+    marr_rec = MarriageRecord.objects.all()
 
-    records_per_page = get_records_per_page(request)
-    paginator = Paginator(visa_app, records_per_page)
-
-    return {'data': paginator.page(1),
-            'paginator': paginator,
-            }
+    return render(request, 'tasks_and_assignments.html', {
+        'visa_app': visa_app,
+        'marr_rec': marr_rec,
+    })
 
 
 @authentication_required
@@ -63,15 +62,48 @@ def assign_task(request, application_number):
 
 
 @authentication_required
+@allowed_users(allowed_roles=['admin', 'moderator'])
+def assign_task_marriage(request, pk):
+
+    # Get the groups
+    facilitator_group = Group.objects.get(name='facilitator')
+    moderator_group = Group.objects.get(name='moderator')
+
+    marr_rec = MarriageRecord.objects.get(id=pk)
+
+    # Filter users based on group membership
+    person = User.objects.filter(groups__in=[facilitator_group, moderator_group]).distinct()
+
+    if request.method == "POST":
+        marr_rec.record_status = 2
+
+        assigned_officer_id = request.POST['assigned_officer']
+        assigned_officer = get_object_or_404(User, id=assigned_officer_id)
+
+        marr_rec.assigned_officer = assigned_officer
+        marr_rec.save()
+        messages.success(request, "Task Assigned")
+        return redirect('marriage_application_list')
+
+    else:
+        return render(request, 'assign_task_marriage.html', {
+            'marr_rec': marr_rec,
+            'person': person,
+        })
+
+
+@authentication_required
 @allowed_users(allowed_roles=['admin', 'moderator', 'facilitator'])
 def assigned_to_me(request):
 
     user_id = request.user.id
 
     visa_app = VisaApplication.objects.filter(assigned_officer=user_id)
+    marr_rec = MarriageRecord.objects.all()
 
     return render(request, 'tasks_assigned_to_me.html', {
         'visa_app': visa_app,
+        'marr_rec': marr_rec,
     })
 
 
@@ -94,8 +126,29 @@ def add_officer_note(request, application_number):
             'visa_app': visa_app,
         })
 
+
+@authentication_required
+@allowed_users(allowed_roles=['admin', 'moderator', 'facilitator'])
+def add_officer_note_marriage(request, pk):
+
+    marr_rec = MarriageRecord.objects.get(id=pk)
+
+    if request.method == "POST":
+        marr_rec.record_status = 3
+        marr_rec.officer_notes = request.POST['officer_notes']
+
+        marr_rec.save()
+        messages.success(request, "Note Added")
+        return redirect('assigned_to_me')
+
+    else:
+        return render(request, 'add_officer_note_marriage.html', {
+            'marr_rec': marr_rec,
+        })
+
 # ====================================================================OLD WORK BUT STILL FUNCTIONAL =
 # ====================================================================CREATE =======================
+
 
 @authentication_required
 @allowed_users(allowed_roles=['admin', ])

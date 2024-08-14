@@ -20,7 +20,7 @@
 }
 </style>
 
-<h5>Requests & Assignment / ዝቐረቡ ሕቶታትን ዝተመደበሎም ኣባልን</h5>
+<h5>Visa Related Requests & Assignment / ምስ ቪዛ ዝተኣሳሰሩ ዝቐረቡ ሕቶታትን ዝተመደበሎም ኣባልን</h5>
 
 <table class="table table-striped table-hover table-bordered table-sm align-middle" style="font-size:0.7rem;">
     <thead align="center">
@@ -36,7 +36,7 @@
 
     <tbody>
 
-    {% for i in data %}
+    {% for i in visa_app %}
     <tr>
         <td>
             <a href="{% url 'compiled_application' i.id %}">
@@ -45,19 +45,7 @@
         </td>
         <td>{{ i.application_owner.first_name }} {{ i.application_owner.last_name }}</td>
         <td>{{ i.date_submitted }}</td>
-        <td>
-                {% if i.application_status == "1" %}
-                    ተረኪቡ/In
-                {% elif i.application_status == "2" %}
-                    ተመደቡ/As
-                {% elif i.application_status == "3" %}
-                    ኣብ መስርሕ/Pr
-                {% elif i.application_status == "4" %}
-                    ተዛዚሙ/Co
-                {% elif i.application_status == "5" %}
-                    ተሰሪዙ/Ca
-                {% endif %}
-        </td>
+        <td>{{ i.get_application_status_display }}</td>
         <td>
             {% if i.assigned_officer != None %}
                 <a href="{% url 'assign_task' i.application_number %}">
@@ -73,6 +61,48 @@
 
     </tbody>
 </table>
+<br>
+<hr class="divider">
+<br>
+<h5>Marriage Related Requests & Assignment / ምስ መርዓ ዝተኣሳሰሩ ዝቐረቡ ሕቶታትን ዝተመደበሎም ኣባልን</h5>
+
+    <table class="table table-striped table-hover table-bordered table-sm align-middle">
+        <thead align="center">
+        <tr>
+            <th scope="col">ተራ ቁ.</th>
+            <th scope="col">ምሉእ ስም ሓታቲ</th>
+            <th scope="col">ዓይነት መርዓ</th>
+            <th scope="col">ዝሓተተሉ ዕለት</th>
+            <th scope="col">መርዓ ተምደበሉ ዕለት</th>
+            <th scope="col">ኩነት ናይዚ ሕቶ</th>
+            <th scope="col">ዝተመደበ ኣባል</th>
+            <th scope="col">ሓጺር መግለጺ ኣበናይ ኩነት ከምእትርከብ</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for i in marr_rec %}
+        <tr>
+            <td><a href="{% url 'compiled_marriage_application' i.id %}">{{ i.id }}</a></td>
+            <td>{{ i.requestor.first_name }} {{ i.requestor.last_name }}</td>
+            <td>{{ i.get_marriage_classification_display }}</td>
+            <td>{{ i.requested_date }}</td>
+            <td>{{ i.marriage_planned_date }}</td>
+            <td>{{ i.get_record_status_display }}</td>
+            <td>
+                {% if i.assigned_officer != None %}
+                    <a href="{% url 'assign_task_marriage' i.id %}">
+                        {{ i.assigned_officer.first_name }} {{ i.assigned_officer.last_name }}
+                    </a>
+                {% else %}
+                    <a href="{% url 'assign_task_marriage' i.id %}">ሰብ መድበሉ</a>
+                {% endif %}
+            </td>
+            <td>{{ i.officer_notes }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 
 {% endblock %}

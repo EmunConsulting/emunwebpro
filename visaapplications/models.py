@@ -8,11 +8,11 @@ from utils import TimestampMixin, UserStampedMixin
 class VisaApplication(TimestampMixin, UserStampedMixin, models.Model):
 
     STATUS_CHOICES = [
-        ('1', 'Initiated'),
-        ('2', 'Assigned'),
-        ('3', 'In Progress'),
-        ('4', 'Completed'),
-        ('5', 'Cancelled'),
+        ('1', 'Initiated/ተበጊሱ'),
+        ('2', 'Assigned/ተመዲቡ'),
+        ('3', 'In Progress/ኣብ መስርሕ'),
+        ('4', 'Completed/ተዛዚሙ'),
+        ('5', 'Cancelled/ተሰሪዙ'),
     ]
 
     # Metadata

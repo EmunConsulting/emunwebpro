@@ -4,6 +4,9 @@ from decorators import authentication_required, allowed_users
 
 from travelers.models import TravelerRecord, ProfileImage
 from visaapplications.models import VisaApplication
+from attachments.models import MarriageRecord, MarriageAttachments
+
+
 # Create your views here.
 
 
@@ -19,6 +22,13 @@ def general_report(request):
     com = VisaApplication.objects.filter(application_status=4).count()
     can = VisaApplication.objects.filter(application_status=5).count()
 
+    mar_rec = MarriageRecord.objects.all().count()
+    mar_ini = MarriageRecord.objects.filter(record_status=1).count()
+    mar_ass = MarriageRecord.objects.filter(record_status=2).count()
+    mar_inp = MarriageRecord.objects.filter(record_status=3).count()
+    mar_com = MarriageRecord.objects.filter(record_status=4).count()
+    mar_can = MarriageRecord.objects.filter(record_status=5).count()
+
     return render(request, 'general_report.html', {
         'tra_rec': tra_rec,
         'visa_app': visa_app,
@@ -27,6 +37,13 @@ def general_report(request):
         'inp': inp,
         'com': com,
         'can': can,
+
+        'mar_rec': mar_rec,
+        'mar_ini': mar_ini,
+        'mar_ass': mar_ass,
+        'mar_inp': mar_inp,
+        'mar_com': mar_com,
+        'mar_can': mar_can,
     })
 
 
@@ -52,4 +69,28 @@ def visa_application_list(request):
 
     return render(request, 'visa_application_list.html', {
         'info': info,
+    })
+
+
+@authentication_required
+@allowed_users(allowed_roles=['admin', 'moderator'])
+def marriage_application_list(request):
+
+    info = MarriageRecord.objects.all()
+
+    return render(request, 'marriage_application_list.html', {
+        'info': info,
+    })
+
+
+@authentication_required
+@allowed_users(allowed_roles=['admin', 'moderator'])
+def compiled_marriage_application(request, pk):
+
+    info = MarriageRecord.objects.get(id=pk)
+    att = MarriageAttachments.objects.get(record_id=pk)
+
+    return render(request, 'compiled_marriage_application.html', {
+        'info': info,
+        'att': att,
     })
